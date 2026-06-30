@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unite a Euforia — Formulario de creadoras</title>
+<style>
+:root {
+  --midnight: #0a0f1e;
+  --deep-blue: #0d1f3c;
+  --celeste: #5cb8e4;
+  --dawn-coral: #e87c5a;
+  --sunset-red: #c0392b;
+  --cream: #faf8f4;
+  --warm-white: #fff9f4;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-ui: 'Josefin Sans', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--midnight); color: var(--cream); min-height: 100vh; }
+a { color: var(--celeste); }
+
+/* HEADER */
+.page-header {
+  background: linear-gradient(180deg, var(--midnight) 0%, var(--deep-blue) 100%);
+  padding: 4rem 2rem 3rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(92,184,228,0.1);
+}
+.header-logo {
+  font-family: var(--font-ui);
+  font-weight: 300;
+  font-size: 1.3rem;
+  letter-spacing: 0.3em;
+  color: var(--celeste);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+.header-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.1;
+  margin-bottom: 0.8rem;
+}
+.header-title em { font-style: italic; color: var(--celeste); }
+.header-sub {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.4);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* FORM */
+.form-wrap { max-width: 760px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+.section-block { margin-bottom: 3rem; }
+.section-label {
+  font-family: var(--font-ui);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--celeste);
+  display: block;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(92,184,228,0.15);
+  margin-bottom: 1.5rem;
+}
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1rem; }
+.field label {
+  font-family: var(--font-ui);
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+input, select, textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  padding: 0.45rem 0.8rem;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input:focus, select:focus, textarea:focus { border-color: rgba(92,184,228,0.5); }
+select { background: rgba(13,31,60,0.8); cursor: pointer; }
+textarea { resize: vertical; min-height: 100px; }
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+.phone-row { display: flex; gap: 0.5rem; }
+.phone-code {
+  width: 130px;
+  flex-shrink: 0;
+  background: rgba(13,31,60,0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  padding: 0.45rem 0.5rem;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* CHECK GRID */
+.check-grid { display: grid; gap: 0.5rem; }
+.check-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.check-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.check-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.check-item { display: flex; align-items: flex-start; gap: 0.5rem; cursor: pointer; }
+.check-item input[type="checkbox"] {
+  width: 14px; height: 14px; min-width: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 2px;
+  accent-color: var(--celeste);
+}
+.check-item span { font-size: 0.68rem; color: rgba(255,255,255,0.55); line-height: 1.4; }
+
+/* UPLOAD */
+.upload-box {
+  border: 1px dashed rgba(92,184,228,0.3);
+  padding: 0.9rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.upload-box:hover { border-color: rgba(92,184,228,0.6); background: rgba(92,184,228,0.04); }
+.upload-icon { display: block; opacity: 0.5; flex-shrink: 0; }
+.upload-text { font-family: var(--font-ui); font-size: 0.68rem; font-weight: 700; color: var(--celeste); display: block; text-align: left; }
+.upload-hint { font-size: 0.62rem; color: rgba(255,255,255,0.25); display: block; margin-top: 0.2rem; text-align: left; }
+.upload-name { font-size: 0.65rem; color: rgba(92,184,228,0.7); display: block; margin-top: 0.15rem; text-align: left; }
+
+/* NOTE */
+.note {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.6;
+  padding: 1rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.2);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+/* SUBMIT */
+.btn-submit {
+  width: 100%;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--warm-white);
+  background: linear-gradient(135deg, var(--sunset-red), var(--dawn-coral));
+  padding: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-submit:hover { opacity: 0.88; }
+.btn-submit:disabled { opacity: 0.5; cursor: default; }
+
+/* ERROR / SUCCESS */
+.msg-error {
+  background: rgba(192,57,43,0.1);
+  border: 1px solid rgba(192,57,43,0.3);
+  padding: 0.8rem 1rem;
+  font-size: 0.82rem;
+  color: #e87c5a;
+  margin-bottom: 1.5rem;
+  display: none;
+}
+.msg-error.visible { display: block; }
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.success-screen.visible { display: block; }
+.success-title { font-family: var(--font-display); font-size: 3.5rem; font-weight: 300; color: var(--celeste); margin-bottom: 0.5rem; }
+.success-sub { font-family: var(--font-display); font-size: 1.3rem; font-style: italic; color: rgba(255,255,255,0.6); margin-bottom: 1.5rem; }
+.success-body { font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.7; margin-bottom: 2rem; }
+
+@media (max-width: 640px) {
+  .row-2, .row-3 { grid-template-columns: 1fr; }
+  .check-grid.cols-3, .check-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .check-grid.cols-2 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <a href="/" class="header-logo">EUFORIA</a>
+  <h1 class="header-title">Unite a la<br><em>base de talento</em></h1>
+  <p class="header-sub">Completá tu perfil y entrá en la agenda Euforia. Las marcas te van a encontrar — nosotros nos ocupamos del resto.</p>
+</header>
+
+<div class="form-wrap">
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-title">¡Bienvenida!</div>
+    <p class="success-sub">Tu perfil fue enviado con éxito.</p>
+    <p class="success-body">Lo revisamos en las próximas 48 horas. Cuando lo aprobemos, vas a aparecer en la base de talento y las marcas te van a poder encontrar.</p>
+    <a href="/">← Volver a Euforia</a>
+  </div>
+
+  <div id="msgError" class="msg-error"></div>
+
+  <form id="creatorForm" novalidate>
+
+    <!-- ── DATOS PERSONALES ── -->
+    <div class="section-block">
+      <span class="section-label">Datos personales</span>
+      <div class="row-2">
+        <div class="field"><label>Nombre *</label><input type="text" id="nombre" placeholder="Tu nombre" required></div>
+        <div class="field"><label>Apellido *</label><input type="text" id="apellido" placeholder="Tu apellido" required></div>
+      </div>
+      <div class="row-2">
+        <div class="field"><label>Email *</label><input type="email" id="email" placeholder="tu@email.com" required></div>
+        <div class="field">
+          <label>WhatsApp *</label>
+          <div class="phone-row">
+            <select class="phone-code" id="phoneCode">
+              <option value="+54">🇦🇷 +54</option>
+              <option value="+52">🇲🇽 +52</option>
+              <option value="+57">🇨🇴 +57</option>
+              <option value="+56">🇨🇱 +56</option>
+              <option value="+51">🇵🇪 +51</option>
+              <option value="+58">🇻🇪 +58</option>
+              <option value="+593">🇪🇨 +593</option>
+              <option value="+591">🇧🇴 +591</option>
+              <option value="+595">🇵🇾 +595</option>
+              <option value="+598">🇺🇾 +598</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+502">🇬🇹 +502</option>
+              <option value="+506">🇨🇷 +506</option>
+              <option value="+507">🇵🇦 +507</option>
+              <option value="+1809">🇩🇴 +1809</option>
+              <option value="+53">🇨🇺 +53</option>
+              <option value="+504">🇭🇳 +504</option>
+            </select>
+            <input type="tel" id="phoneNumber" placeholder="11 1234 5678">
+          </div>
+        </div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>País donde vivís *</label>
+          <select id="pais" required>
+            <option value="">— Seleccioná —</option>
+            <option>🇦🇷 Argentina</option><option>🇲🇽 México</option><option>🇨🇴 Colombia</option>
+            <option>🇨🇱 Chile</option><option>🇵🇪 Perú</option><option>🇻🇪 Venezuela</option>
+            <option>🇪🇨 Ecuador</option><option>🇧🇴 Bolivia</option><option>🇵🇾 Paraguay</option>
+            <option>🇺🇾 Uruguay</option><option>🇪🇸 España</option><option>🇺🇸 Estados Unidos</option>
+            <option>🇬🇹 Guatemala</option><option>🇨🇷 Costa Rica</option><option>🇵🇦 Panamá</option>
+            <option>🇩🇴 República Dominicana</option><option>🇨🇺 Cuba</option>
+            <option>🇭🇳 Honduras</option><option>🇸🇻 El Salvador</option><option>🇳🇮 Nicaragua</option>
+            <option>🇵🇷 Puerto Rico</option><option>🇬🇶 Guinea Ecuatorial</option><option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Género</label>
+          <select id="genero">
+            <option>Femenino</option><option>Masculino</option><option>No binario</option><option>Otro</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FOTOS ── -->
+    <div class="section-block">
+      <span class="section-label">Fotos de perfil</span>
+      <div class="row-2" style="gap:1rem;">
+        <div>
+          <p style="font-family:var(--font-ui);font-size:0.63rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">Foto de cara *</p>
+          <div class="upload-box" onclick="document.getElementById('photoInput').click()">
+            <svg class="upload-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(92,184,228,0.5)" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <div><span class="upload-text">Subí tu foto de cara</span>
+            <span class="upload-hint">Primer plano, buena luz · JPG/PNG · máx 5 MB</span></div>
+            <span class="upload-name" id="photoName"></span>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="showFileName('photoInput','photoName')">
+        </div>
+        <div>
+          <p style="font-family:var(--font-ui);font-size:0.63rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.5rem;">Foto de cuerpo entero *</p>
+          <div class="upload-box" onclick="document.getElementById('bodyPhotoInput').click()">
+            <svg class="upload-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(92,184,228,0.5)" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <div><span class="upload-text">Subí tu foto de cuerpo entero</span>
+            <span class="upload-hint">De pies a cabeza, ropa casual · JPG/PNG · máx 5 MB</span></div>
+            <span class="upload-name" id="bodyPhotoName"></span>
+          </div>
+          <input type="file" id="bodyPhotoInput" accept="image/*" style="display:none" onchange="showFileName('bodyPhotoInput','bodyPhotoName')">
+        </div>
+      </div>
+    </div>
+
+    <!-- ── REDES SOCIALES ── -->
+    <div class="section-block">
+      <span class="section-label">Redes sociales</span>
+      <div class="row-2">
+        <div class="field"><label>Instagram * (handle)</label><input type="text" id="instagram" placeholder="@tuhandle" required></div>
+        <div class="field"><label>TikTok * (handle)</label><input type="text" id="tiktok" placeholder="@tuhandle" required></div>
+      </div>
+      <div class="row-2">
+        <div class="field"><label>YouTube (URL)</label><input type="text" id="youtube" placeholder="https://youtube.com/..."></div>
+        <div class="field"><label>Portfolio / Página web</label><input type="text" id="portfolio_url" placeholder="https://..."></div>
+      </div>
+    </div>
+
+    <!-- ── CONTENIDO ── -->
+    <div class="section-block">
+      <span class="section-label">Tipo de contenido que creás</span>
+      <div class="check-grid cols-3" id="categorias">
+        <label class="check-item"><input type="checkbox" value="Turismo & Viajes"><span>Turismo &amp; Viajes</span></label>
+        <label class="check-item"><input type="checkbox" value="Beauty & Skincare"><span>Beauty &amp; Skincare</span></label>
+        <label class="check-item"><input type="checkbox" value="Indumentaria"><span>Indumentaria</span></label>
+        <label class="check-item"><input type="checkbox" value="Deco & Hogar"><span>Deco &amp; Hogar</span></label>
+        <label class="check-item"><input type="checkbox" value="Gastronomía"><span>Gastronomía</span></label>
+        <label class="check-item"><input type="checkbox" value="Lifestyle"><span>Lifestyle</span></label>
+        <label class="check-item"><input type="checkbox" value="Fitness & Salud"><span>Fitness &amp; Salud</span></label>
+        <label class="check-item"><input type="checkbox" value="Nutrición"><span>Nutrición</span></label>
+        <label class="check-item"><input type="checkbox" value="Tech & Gadgets"><span>Tech &amp; Gadgets</span></label>
+        <label class="check-item"><input type="checkbox" value="Arte & Diseño"><span>Arte &amp; Diseño</span></label>
+        <label class="check-item"><input type="checkbox" value="Música"><span>Música</span></label>
+        <label class="check-item"><input type="checkbox" value="Gaming"><span>Gaming</span></label>
+        <label class="check-item"><input type="checkbox" value="Otro"><span>Otro</span></label>
+      </div>
+    </div>
+
+    <!-- ── CANJES ── -->
+    <div class="section-block">
+      <span class="section-label">¿Aceptás canjes? Indicá en qué industrias</span>
+      <div class="check-grid cols-3" id="canjes">
+        <label class="check-item"><input type="checkbox" value="Indumentaria"><span>Indumentaria</span></label>
+        <label class="check-item"><input type="checkbox" value="Beauty & Skincare"><span>Beauty &amp; Skincare</span></label>
+        <label class="check-item"><input type="checkbox" value="Deco / Materiales"><span>Deco / Materiales</span></label>
+        <label class="check-item"><input type="checkbox" value="Gastronomía"><span>Gastronomía</span></label>
+        <label class="check-item"><input type="checkbox" value="Viajes / Hosting"><span>Viajes / Hosting</span></label>
+        <label class="check-item"><input type="checkbox" value="Libros / Cursos"><span>Libros / Cursos</span></label>
+        <label class="check-item"><input type="checkbox" value="Tech / Gadgets"><span>Tech / Gadgets</span></label>
+        <label class="check-item"><input type="checkbox" value="No acepto canjes"><span>No acepto canjes</span></label>
+      </div>
+    </div>
+
+    <!-- ── MÉTRICAS ── -->
+    <div class="section-block">
+      <span class="section-label">Métricas (aproximadas)</span>
+      <div class="row-3">
+        <div class="field">
+          <label>Seguidores en IG</label>
+          <select id="seguidores_ig">
+            <option value="">—</option>
+            <option>0 – 1.000</option><option>1.000 – 5.000</option><option>5.000 – 10.000</option>
+            <option>10.000 – 30.000</option><option>30.000 – 100.000</option><option>100.000+</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Seguidores en TikTok</label>
+          <select id="seguidores_tt">
+            <option value="">—</option>
+            <option>0 – 1.000</option><option>1.000 – 5.000</option><option>5.000 – 10.000</option>
+            <option>10.000 – 30.000</option><option>30.000 – 100.000</option><option>100.000+</option>
+          </select>
+        </div>
+        <div class="field"><label>Engagement IG (si sabés)</label><input type="text" id="engagement_ig" placeholder="Ej: 5.2%"></div>
+      </div>
+    </div>
+
+    <!-- ── EXPERIENCIA ── -->
+    <div class="section-block">
+      <span class="section-label">Experiencia y portfolio</span>
+      <div class="field">
+        <label>¿Por qué una marca debería elegirte? *</label>
+        <textarea id="por_que_elegirme" placeholder="Contanos qué te hace única, tu estilo, tu audiencia..." required></textarea>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>¿Editás tus videos?</label>
+          <select id="edita_videos">
+            <option>Sí, yo edito</option>
+            <option>Sí, tengo quien me edita</option>
+            <option>No sé editar aún</option>
+          </select>
+        </div>
+        <div class="field"><label>Colaboraciones anteriores (opcional)</label><input type="text" id="experiencia" placeholder="Marcas con las que trabajaste"></div>
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Presupuesto por video</label>
+          <div style="display:flex;gap:0.5rem;">
+            <select id="moneda_video" style="width:110px;flex-shrink:0;">
+              <option value="USD">USD</option>
+              <option value="ARS">ARS</option>
+            </select>
+            <input type="text" id="presupuesto_video" placeholder="Ej: 80, 150, 300...">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MEDIDAS ── -->
+    <div class="section-block">
+      <span class="section-label">Medidas y talles — para campañas de indumentaria</span>
+      <p style="font-size:0.78rem; color:rgba(255,255,255,0.28); line-height:1.6; margin-bottom:1.2rem;">Solo se comparten con marcas que necesiten enviar productos. Podés dejarlo en blanco si no te interesa ropa.</p>
+      <div class="row-3">
+        <div class="field"><label>Altura (cm)</label><input type="text" id="altura" placeholder="168"></div>
+        <div class="field">
+          <label>Talle de ropa</label>
+          <select id="talle_ropa">
+            <option value="">—</option>
+            <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Talle pantalón</label>
+          <select id="talle_pantalon">
+            <option value="">—</option>
+            <option>34</option><option>36</option><option>38</option><option>40</option><option>42</option><option>44</option><option>46</option><option>48</option><option>50</option><option>52+</option>
+          </select>
+        </div>
+        <div class="field"><label>Busto (cm)</label><input type="text" id="busto" placeholder="92"></div>
+        <div class="field"><label>Cintura (cm)</label><input type="text" id="cintura" placeholder="70"></div>
+        <div class="field"><label>Cadera (cm)</label><input type="text" id="cadera" placeholder="98"></div>
+      </div>
+      <div class="field" style="max-width:200px;">
+        <label>Número de calzado</label>
+        <select id="numero_calzado">
+          <option value="">—</option>
+          <option>34</option><option>35</option><option>36</option><option>37</option><option>38</option>
+          <option>39</option><option>40</option><option>41</option><option>42</option><option>43</option>
+          <option>44</option><option>45</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ── ESTILO DE VIDA ── -->
+    <div class="section-block">
+      <span class="section-label">Estilo de vida y valores</span>
+      <div class="field" style="margin-bottom:1.5rem;">
+        <label>Alimentación</label>
+        <select id="alimentacion">
+          <option value="">— Sin preferencia especial —</option>
+          <option>Omnívora</option><option>Vegana</option><option>Vegetariana</option>
+          <option>Ovo-lacto-vegetariana</option><option>Flexitariana</option><option>Pescetariana</option>
+          <option>Sin gluten (celíaca)</option><option>Sin lactosa</option><option>Cetogénica</option>
+          <option>Alta en proteínas</option><option>Mediterránea</option><option>Plant-based</option><option>Otra</option>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:1.5rem;">
+        <label style="display:block;margin-bottom:0.6rem;">Estilo de vida</label>
+        <div class="check-grid cols-3" id="estilo_vida">
+          <label class="check-item"><input type="checkbox" value="Activo / Fitness"><span>Activo / Fitness</span></label>
+          <label class="check-item"><input type="checkbox" value="Viajero/a frecuente"><span>Viajero/a frecuente</span></label>
+          <label class="check-item"><input type="checkbox" value="Pet-friendly"><span>Pet-friendly</span></label>
+          <label class="check-item"><input type="checkbox" value="Mamá / Papá"><span>Mamá / Papá</span></label>
+          <label class="check-item"><input type="checkbox" value="Minimalista"><span>Minimalista</span></label>
+          <label class="check-item"><input type="checkbox" value="Eco-consciente"><span>Eco-consciente</span></label>
+          <label class="check-item"><input type="checkbox" value="Foodie"><span>Foodie</span></label>
+          <label class="check-item"><input type="checkbox" value="Gamer"><span>Gamer</span></label>
+          <label class="check-item"><input type="checkbox" value="Creativo/a"><span>Creativo/a</span></label>
+          <label class="check-item"><input type="checkbox" value="Emprendedor/a"><span>Emprendedor/a</span></label>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:1.5rem;">
+        <label style="display:block;margin-bottom:0.6rem;">Causas que apoyás</label>
+        <div class="check-grid cols-4" id="causas">
+          <label class="check-item"><input type="checkbox" value="Medio ambiente"><span>Medio ambiente</span></label>
+          <label class="check-item"><input type="checkbox" value="Derechos animales"><span>Derechos animales</span></label>
+          <label class="check-item"><input type="checkbox" value="Igualdad de género"><span>Igualdad de género</span></label>
+          <label class="check-item"><input type="checkbox" value="Salud mental"><span>Salud mental</span></label>
+          <label class="check-item"><input type="checkbox" value="LGBTQ+"><span>LGBTQ+</span></label>
+          <label class="check-item"><input type="checkbox" value="Inclusión"><span>Inclusión</span></label>
+          <label class="check-item"><input type="checkbox" value="Educación"><span>Educación</span></label>
+          <label class="check-item"><input type="checkbox" value="Veganismo"><span>Veganismo</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label style="display:block;margin-bottom:0.6rem;">Campañas que NO aceptarías</label>
+        <div class="check-grid cols-2" id="no_acepta">
+          <label class="check-item"><input type="checkbox" value="Tabaco / alcohol"><span>Tabaco / alcohol</span></label>
+          <label class="check-item"><input type="checkbox" value="Apuestas / gambling"><span>Apuestas / gambling</span></label>
+          <label class="check-item"><input type="checkbox" value="Contenido para adultos"><span>Contenido para adultos</span></label>
+          <label class="check-item"><input type="checkbox" value="Moda rápida (fast fashion)"><span>Moda rápida (fast fashion)</span></label>
+          <label class="check-item"><input type="checkbox" value="Productos no veganos"><span>Productos no veganos</span></label>
+          <label class="check-item"><input type="checkbox" value="Productos de lujo extremo"><span>Productos de lujo extremo</span></label>
+          <label class="check-item"><input type="checkbox" value="Criptomonedas / NFTs"><span>Criptomonedas / NFTs</span></label>
+          <label class="check-item"><input type="checkbox" value="Armas"><span>Armas</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── INTERMEDIARIO ── -->
+    <div class="section-block">
+      <span class="section-label">Condiciones de contratación</span>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.45);line-height:1.75;margin-bottom:1.2rem;">Euforia actúa como intermediario entre vos y las marcas. Esto significa que todas las negociaciones, contratos y pagos pasan por nosotros — así te aseguramos el cumplimiento de los acuerdos y vos te enfocás solo en crear.</p>
+      <label class="check-item" style="align-items:flex-start;gap:0.8rem;cursor:pointer;">
+        <input type="checkbox" id="acepta_intermediario" required style="margin-top:3px;min-width:16px;width:16px;height:16px;accent-color:var(--celeste);">
+        <span style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.6;">
+          Acepto que Euforia actúe como intermediario en mis contrataciones con marcas, garantizando el cumplimiento de los contratos y gestionando los pagos en mi nombre. *
+        </span>
+      </label>
+    </div>
+
+    <!-- ── AVISO ── -->
+    <p class="note">🔒 Tu contacto directo nunca se comparte con las marcas. Al enviar este formulario aceptás que tus datos sean incluidos en la base de talento Euforia.</p>
+
+    <button type="submit" class="btn-submit" id="submitBtn">Enviar mi perfil a Euforia →</button>
+
+  </form>
+</div>
+
+<script>
+const WORKER_URL = 'https://euforia-worker.conglomeradocosmart.workers.dev';
+
+function showFileName(inputId, nameId) {
+  const file = document.getElementById(inputId).files[0];
+  document.getElementById(nameId).textContent = file ? '✓ ' + file.name : '';
+}
+
+function getChecked(containerId) {
+  return [...document.querySelectorAll('#' + containerId + ' input[type=checkbox]:checked')]
+    .map(c => c.value);
+}
+
+function showError(msg) {
+  const el = document.getElementById('msgError');
+  el.textContent = msg;
+  el.classList.add('visible');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+document.getElementById('creatorForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const nombre = document.getElementById('nombre').value.trim();
+  const email  = document.getElementById('email').value.trim();
+  const instagram = document.getElementById('instagram').value.trim();
+  const por_que = document.getElementById('por_que_elegirme').value.trim();
+  const pais = document.getElementById('pais').value;
+
+  if (!nombre || !email || !instagram || !pais) {
+    showError('Completá al menos nombre, email, país e Instagram.'); return;
+  }
+  if (!por_que) {
+    showError('Contanos por qué una marca debería elegirte.'); return;
+  }
+  if (!document.getElementById('acepta_intermediario').checked) {
+    showError('Necesitamos que aceptes las condiciones de contratación para continuar.'); return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando tu perfil...';
+  document.getElementById('msgError').classList.remove('visible');
+
+  const photoFile = document.getElementById('photoInput').files[0];
+  const bodyPhotoFile = document.getElementById('bodyPhotoInput').files[0];
+  let foto_perfil_url = null;
+  let foto_cuerpo_url = null;
+
+  async function uploadPhoto(file, suffix) {
+    try {
+      const ext = file.name.split('.').pop();
+      const filename = Date.now() + '-' + email.replace('@','_') + '-' + suffix + '.' + ext;
+      const res = await fetch(WORKER_URL + '/api/upload-photo?filename=' + encodeURIComponent(filename), {
+        method: 'PUT', headers: { 'Content-Type': file.type }, body: file
+      });
+      if (res.ok) { const { url } = await res.json(); return url; }
+    } catch(e) { console.warn('Upload failed:', e); }
+    return null;
+  }
+
+  if (photoFile)     foto_perfil_url = await uploadPhoto(photoFile, 'cara');
+  if (bodyPhotoFile) foto_cuerpo_url = await uploadPhoto(bodyPhotoFile, 'cuerpo');
+
+  const payload = {
+    nombre,
+    apellido:      document.getElementById('apellido').value.trim(),
+    email,
+    pais,
+    genero:        document.getElementById('genero').value,
+    whatsapp:      document.getElementById('phoneCode').value + ' ' + document.getElementById('phoneNumber').value.trim(),
+    instagram,
+    tiktok:        document.getElementById('tiktok').value.trim(),
+    youtube:       document.getElementById('youtube').value.trim(),
+    portfolio_url: document.getElementById('portfolio_url').value.trim(),
+    categorias:    getChecked('categorias'),
+    canjes:        getChecked('canjes'),
+    seguidores_ig: document.getElementById('seguidores_ig').value,
+    seguidores_tt: document.getElementById('seguidores_tt').value,
+    engagement_ig: document.getElementById('engagement_ig').value.trim(),
+    por_que_elegirme: por_que,
+    edita_videos:  document.getElementById('edita_videos').value,
+    experiencia:   document.getElementById('experiencia').value.trim(),
+    altura:        document.getElementById('altura').value.trim(),
+    talle_ropa:    document.getElementById('talle_ropa').value,
+    talle_pantalon: document.getElementById('talle_pantalon').value,
+    busto:         document.getElementById('busto').value.trim(),
+    cintura:       document.getElementById('cintura').value.trim(),
+    cadera:        document.getElementById('cadera').value.trim(),
+    numero_calzado: document.getElementById('numero_calzado').value,
+    alimentacion:  document.getElementById('alimentacion').value,
+    estilo_vida:   getChecked('estilo_vida'),
+    causas:        getChecked('causas'),
+    no_acepta:     getChecked('no_acepta'),
+    foto_perfil_url,
+    foto_cuerpo_url,
+    presupuesto_video: document.getElementById('moneda_video').value + ' ' + document.getElementById('presupuesto_video').value.trim(),
+    acepta_intermediario: true,
+    activa: true,
+    verificada: false
+  };
+
+  try {
+    const res = await fetch(WORKER_URL + '/api/creator', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      if (data.code === 'DUPLICATE') {
+        showError('Ya existe un perfil con ese email.');
+      } else {
+        showError(data.error || 'Error al enviar. Intentá de nuevo.');
+      }
+      btn.disabled = false;
+      btn.textContent = 'Enviar mi perfil a Euforia →';
+      return;
+    }
+
+    document.getElementById('creatorForm').style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch(err) {
+    showError('Error de conexión. Verificá tu internet e intentá de nuevo.');
+    btn.disabled = false;
+    btn.textContent = 'Enviar mi perfil a Euforia →';
+  }
+});
+</script>
+</body>
+</html>
