@@ -163,6 +163,10 @@ body{font-family:var(--F);background:var(--bg);color:var(--text);min-height:100v
           <input type="text" id="f-empresa" placeholder="Empresa / Marca" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--F);font-size:.82rem;padding:.5rem .8rem;outline:none;border-radius:2px">
           <input type="email" id="f-email" placeholder="Email" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--F);font-size:.82rem;padding:.5rem .8rem;outline:none;border-radius:2px">
         </div>
+        <label style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1rem;cursor:pointer;">
+          <input type="checkbox" id="privacyCheck" required style="margin-top:3px;flex-shrink:0;accent-color:#e8813a;">
+          <span style="font-size:.75rem;color:#666;line-height:1.55;">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank" style="color:#e8813a;">Política de Privacidad</a> de COSMART y consiento recibir comunicaciones sobre el servicio Euforia y el ecosistema COSMART.</span>
+        </label>
         <span class="pay-label">Método de pago</span>
       </div>
 
@@ -208,6 +212,12 @@ function setCur(cur, btn) {
   btn.classList.add('on');
   document.getElementById('priceUSD').style.display = cur === 'usd' ? 'block' : 'none';
   document.getElementById('priceARS').style.display = cur === 'ars' ? 'block' : 'none';
+  var mpWrap = document.getElementById('mp-card-form-wrap');
+  var ppBtn = document.getElementById('paypal-sub-btn');
+  var divider = document.querySelector('.pay-divider');
+  if (mpWrap) mpWrap.style.display = cur === 'ars' ? 'block' : 'none';
+  if (ppBtn) ppBtn.style.display = cur === 'usd' ? 'block' : 'none';
+  if (divider) divider.style.display = 'none';
 }
 
 function getFields() {
@@ -269,6 +279,11 @@ paypal.Buttons({
 
 // ── MERCADO PAGO BRICKS ───────────────────────────────
 var mp = new MercadoPago(MP_PUBLIC_KEY);
+// Estado inicial: USD seleccionado, MP oculto
+document.addEventListener('DOMContentLoaded', function() {
+  var mpWrap = document.getElementById('mp-card-form-wrap');
+  if (mpWrap) mpWrap.style.display = 'none';
+});
 var bricksBuilder = mp.bricks();
 
 bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', {
