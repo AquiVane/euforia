@@ -164,7 +164,7 @@ body{font-family:var(--F);background:var(--bg);color:var(--text);min-height:100v
           <input type="email" id="f-email" placeholder="Email" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--F);font-size:.82rem;padding:.5rem .8rem;outline:none;border-radius:2px">
         </div>
         <label style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1rem;cursor:pointer;">
-          <input type="checkbox" id="privacyCheck" required style="margin-top:3px;flex-shrink:0;accent-color:#e8813a;">
+          <input type="checkbox" id="privacyCheck" checked required style="margin-top:3px;flex-shrink:0;width:16px;height:16px;padding:0;accent-color:#e8813a;">
           <span style="font-size:.75rem;color:#666;line-height:1.55;">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank" style="color:#e8813a;">Política de Privacidad</a> de COSMART y consiento recibir comunicaciones sobre el servicio Euforia y el ecosistema COSMART.</span>
         </label>
         <span class="pay-label">Método de pago</span>
@@ -253,11 +253,13 @@ function activateAccess(token) {
 paypal.Buttons({
   style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
   createSubscription: function(data, actions) {
+    if (!document.getElementById('privacyCheck').checked) { showError('Debés aceptar la Política de Privacidad antes de continuar.'); return; }
     var f = getFields();
     if (!f.email) { showError('Ingresa tu email antes de pagar'); return; }
     return actions.subscription.create({ plan_id: PAYPAL_PLAN_ID });
   },
   onApprove: function(data) {
+    if (!document.getElementById('privacyCheck').checked) { showError('Debés aceptar la Política de Privacidad antes de continuar.'); return; }
     var f = getFields();
     fetch(WORKER_URL + '/api/paypal-subscription', {
       method: 'POST',
@@ -295,6 +297,7 @@ bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', {
   callbacks: {
     onReady: function() {},
     onSubmit: function(formData) {
+      if (!document.getElementById('privacyCheck').checked) { showError('Debés aceptar la Política de Privacidad antes de continuar.'); return Promise.reject(); }
       var f = getFields();
       if (!f.email) { showError('Ingresa tu email antes de pagar'); return; }
       return fetch(WORKER_URL + '/api/mp-subscription', {
