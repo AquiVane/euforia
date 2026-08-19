@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /base
+
+Sitemap: https://euforia.cosmart.com.ar/sitemap.xml
