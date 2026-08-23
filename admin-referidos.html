@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>EUFORIA — Fidelización de creadoras</title>
+<style>
+  :root{
+    --midnight:#12111d; --panel:#1a1830; --panel2:#221f38;
+    --celeste:#5cb8e4; --dawn-coral:#e87c5a; --sunset-red:#c0392b;
+    --warm-white:#fff9f4; --muted:rgba(255,249,244,0.6);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--midnight);color:var(--warm-white);font-family:Arial,Helvetica,sans-serif;padding:24px;}
+  h1{font-size:20px;margin:0 0 4px;}
+  p.sub{color:var(--muted);font-size:13px;margin:0 0 24px;}
+  .card{background:var(--panel);border-radius:12px;padding:20px;margin-bottom:20px;max-width:760px;}
+  label{display:block;font-size:12px;color:var(--muted);margin:12px 0 4px;}
+  input,select{width:100%;padding:9px 10px;border-radius:6px;border:1px solid #333;background:var(--panel2);color:var(--warm-white);font-size:14px;}
+  button{margin-top:16px;background:linear-gradient(135deg,var(--dawn-coral),var(--sunset-red));color:var(--warm-white);border:none;padding:10px 20px;border-radius:8px;font-weight:700;cursor:pointer;}
+  button:disabled{opacity:.5;cursor:not-allowed;}
+  table{width:100%;border-collapse:collapse;font-size:13px;max-width:760px;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #2a2840;}
+  th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;}
+  .msg{margin-top:12px;font-size:13px;}
+  .msg.ok{color:#7fd97f;} .msg.error{color:#e87c5a;}
+  .gate{max-width:360px;margin:80px auto;text-align:center;}
+</style>
+</head>
+<body>
+
+<div id="gate" class="gate">
+  <h1>Panel de fidelización</h1>
+  <p class="sub">Ingresá la clave de administración (ADMIN_KEY) configurada en el worker.</p>
+  <input id="adminKeyInput" type="password" placeholder="Clave admin">
+  <button onclick="window.entrar()">Entrar</button>
+  <p id="gateMsg" class="msg error"></p>
+</div>
+
+<div id="panel" style="display:none;">
+  <h1>EUFORIA — Fidelización de creadoras</h1>
+  <p class="sub">Otorgá puntos de posicionamiento cuando una creadora te traiga una recomendación que se cierre en alguna vertical de COSMART.</p>
+
+  <div class="card">
+    <strong>Otorgar puntos</strong>
+    <label>Código de referido de la creadora</label>
+    <input id="fCodigo" placeholder="Ej: SOFI-A1B2">
+    <label>Vertical que cerró el trabajo</label>
+    <select id="fVertical">
+      <option value="">Sin especificar</option>
+      <option>Brújula</option><option>Rumbo Voraz</option><option>Design</option>
+      <option>ComuniCOS</option><option>Talent</option><option>Shows</option>
+      <option>Euforia</option><option>Training</option><option>MPG</option>
+    </select>
+    <label>Detalle (opcional)</label>
+    <input id="fDetalle" placeholder="Ej: cerró un video institucional">
+    <label>Puntos a otorgar</label>
+    <input id="fPuntos" type="number" value="10" min="1">
+    <button id="btnOtorgar" onclick="window.otorgarPuntos()">Otorgar puntos</button>
+    <p id="formMsg" class="msg"></p>
+  </div>
+
+  <div class="card">
+    <strong>Ranking actual de creadoras</strong>
+    <table id="tablaCreadoras"><thead><tr><th>Nombre</th><th>Código</th><th>Puntos</th></tr></thead><tbody></tbody></table>
+  </div>
+
+  <div class="card">
+    <strong>Historial de puntos otorgados</strong>
+    <table id="tablaLog"><thead><tr><th>Fecha</th><th>Código</th><th>Vertical</th><th>Detalle</th><th>Puntos</th></tr></thead><tbody></tbody></table>
+  </div>
+</div>
+
+<script>
+const API = 'https://euforia-worker.conglomeradocosmart.workers.dev';
+let ADMIN_KEY = sessionStorage.getItem('euf_admin_key') || '';
+
+window.entrar = async function() {
+  const key = document.getElementById('adminKeyInput').value.trim();
+  if (!key) return;
+  ADMIN_KEY = key;
+  const okLoad = await cargarDatos();
+  if (okLoad) {
+    sessionStorage.setItem('euf_admin_key', key);
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('panel').style.display = 'block';
+  } else {
+    document.getElementById('gateMsg').textContent = 'Clave incorrecta o el panel no pudo conectarse.';
+  }
+};
+
+async function cargarDatos() {
+  try {
+    const res = await fetch(`${API}/api/admin/referidos`, { headers: { 'X-Admin-Key': ADMIN_KEY } });
+    if (!res.ok) return false;
+    const data = await res.json();
+    renderCreadoras(data.creators || []);
+    renderLog(data.log || []);
+    return true;
+  } catch (e) { return false; }
+}
+
+function renderCreadoras(rows) {
+  const tbody = document.querySelector('#tablaCreadoras tbody');
+  tbody.innerHTML = rows.map(r => `<tr><td>${r.nombre} ${r.apellido || ''}</td><td>${r.referral_code || '—'}</td><td>${r.puntos_posicionamiento || 0}</td></tr>`).join('') || '<tr><td colspan="3">Sin creadoras activas.</td></tr>';
+}
+
+function renderLog(rows) {
+  const tbody = document.querySelector('#tablaLog tbody');
+  tbody.innerHTML = rows.map(r => `<tr><td>${(r.created_at||'').slice(0,16).replace('T',' ')}</td><td>${r.referral_code}</td><td>${r.vertical || '—'}</td><td>${r.detalle || '—'}</td><td>+${r.puntos}</td></tr>`).join('') || '<tr><td colspan="5">Todavía no se otorgaron puntos.</td></tr>';
+}
+
+window.otorgarPuntos = async function() {
+  const referral_code = document.getElementById('fCodigo').value.trim();
+  const vertical = document.getElementById('fVertical').value;
+  const detalle = document.getElementById('fDetalle').value.trim();
+  const puntos = parseInt(document.getElementById('fPuntos').value, 10);
+  const msg = document.getElementById('formMsg');
+  if (!referral_code || !puntos) { msg.textContent = 'Completá el código y los puntos.'; msg.className = 'msg error'; return; }
+
+  const btn = document.getElementById('btnOtorgar');
+  btn.disabled = true;
+  try {
+    const res = await fetch(`${API}/api/admin/otorgar-puntos`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
+      body: JSON.stringify({ referral_code, vertical, detalle, puntos }),
+    });
+    const data = await res.json();
+    if (!res.ok) { msg.textContent = data.error || 'Error al otorgar puntos.'; msg.className = 'msg error'; }
+    else {
+      msg.textContent = `Listo: ${puntos} puntos otorgados a ${data.creator}.`;
+      msg.className = 'msg ok';
+      document.getElementById('fCodigo').value = '';
+      document.getElementById('fDetalle').value = '';
+      cargarDatos();
+    }
+  } catch (e) {
+    msg.textContent = 'Error de conexión.'; msg.className = 'msg error';
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+if (ADMIN_KEY) window.entrar();
+</script>
+</body>
+</html>
