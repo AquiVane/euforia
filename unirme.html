@@ -568,13 +568,14 @@ document.getElementById('creatorForm').addEventListener('submit', async function
   e.preventDefault();
 
   const nombre = document.getElementById('nombre').value.trim();
+  const apellido = document.getElementById('apellido').value.trim();
   const email  = document.getElementById('email').value.trim();
   const instagram = document.getElementById('instagram').value.trim();
   const por_que = document.getElementById('por_que_elegirme').value.trim();
   const pais = document.getElementById('pais').value;
 
-  if (!nombre || !email || !instagram || !pais) {
-    showError('Completá al menos nombre, email, país e Instagram.'); return;
+  if (!nombre || !apellido || !email || !instagram || !pais) {
+    showError('Completá al menos nombre, apellido, email, país e Instagram.'); return;
   }
   if (!por_que) {
     showError('Contanos por qué una marca debería elegirte.'); return;
@@ -593,13 +594,13 @@ document.getElementById('creatorForm').addEventListener('submit', async function
   let foto_perfil_url = null;
   let foto_cuerpo_url = null;
 
-  async function uploadPhoto(file, suffix) {
+  async function uploadPhoto(file, tipo) {
     try {
-      const ext = file.name.split('.').pop();
-      const filename = Date.now() + '-' + email.replace('@','_') + '-' + suffix + '.' + ext;
-      const res = await fetch(WORKER_URL + '/api/upload-photo?filename=' + encodeURIComponent(filename), {
-        method: 'PUT', headers: { 'Content-Type': file.type }, body: file
-      });
+      const form = new FormData();
+      form.append('file', file);
+      form.append('tipo', tipo);
+      form.append('email', email);
+      const res = await fetch(WORKER_URL + '/api/upload-photo', { method: 'POST', body: form });
       if (res.ok) { const { url } = await res.json(); return url; }
     } catch(e) { console.warn('Upload failed:', e); }
     return null;
@@ -610,7 +611,7 @@ document.getElementById('creatorForm').addEventListener('submit', async function
 
   const payload = {
     nombre,
-    apellido:      document.getElementById('apellido').value.trim(),
+    apellido,
     email,
     pais,
     genero:        document.getElementById('genero').value,
