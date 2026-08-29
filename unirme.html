@@ -291,6 +291,10 @@ input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.2); }
           </select>
         </div>
       </div>
+      <div class="row-2">
+        <div class="field"><label>Edad *</label><input type="number" id="edad" placeholder="Ej: 25" min="16" max="99" required></div>
+        <div class="field"><label>Localidad de residencia *</label><input type="text" id="localidad" placeholder="Ciudad, Provincia/Estado" required></div>
+      </div>
     </div>
 
     <!-- ── FOTOS ── -->
@@ -523,10 +527,16 @@ input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.2); }
     <div class="section-block">
       <span class="section-label">Condiciones de contratación</span>
       <p style="font-size:0.85rem;color:rgba(255,255,255,0.45);line-height:1.75;margin-bottom:1.2rem;">Euforia actúa como intermediario entre vos y las marcas. Esto significa que todas las negociaciones, contratos y pagos pasan por nosotros — así te aseguramos el cumplimiento de los acuerdos y vos te enfocás solo en crear.</p>
-      <label class="check-item" style="align-items:flex-start;gap:0.8rem;cursor:pointer;">
+      <label class="check-item" style="align-items:flex-start;gap:0.8rem;cursor:pointer;margin-bottom:0.9rem;">
         <input type="checkbox" id="acepta_intermediario" required style="margin-top:3px;min-width:16px;width:16px;height:16px;accent-color:var(--celeste);">
         <span style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.6;">
           Acepto que Euforia actúe como intermediario en mis contrataciones con marcas, garantizando el cumplimiento de los contratos y gestionando los pagos en mi nombre. *
+        </span>
+      </label>
+      <label class="check-item" style="align-items:flex-start;gap:0.8rem;cursor:pointer;">
+        <input type="checkbox" id="acepta_presencias" required style="margin-top:3px;min-width:16px;width:16px;height:16px;accent-color:var(--celeste);">
+        <span style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.6;">
+          Acepto participar tanto en presencias físicas (eventos, activaciones, canjes presenciales) como en la creación de contenido digital cuando la campaña lo requiera. *
         </span>
       </label>
     </div>
@@ -572,15 +582,23 @@ document.getElementById('creatorForm').addEventListener('submit', async function
   const instagram = document.getElementById('instagram').value.trim();
   const por_que = document.getElementById('por_que_elegirme').value.trim();
   const pais = document.getElementById('pais').value;
+  const edad = document.getElementById('edad').value.trim();
+  const localidad = document.getElementById('localidad').value.trim();
 
   if (!nombre || !email || !instagram || !pais) {
     showError('Completá al menos nombre, email, país e Instagram.'); return;
+  }
+  if (!edad || !localidad) {
+    showError('Completá tu edad y localidad de residencia.'); return;
   }
   if (!por_que) {
     showError('Contanos por qué una marca debería elegirte.'); return;
   }
   if (!document.getElementById('acepta_intermediario').checked) {
     showError('Necesitamos que aceptes las condiciones de contratación para continuar.'); return;
+  }
+  if (!document.getElementById('acepta_presencias').checked) {
+    showError('Necesitamos que aceptes participar en presencias físicas y contenido digital para continuar.'); return;
   }
 
   const btn = document.getElementById('submitBtn');
@@ -613,6 +631,8 @@ document.getElementById('creatorForm').addEventListener('submit', async function
     apellido:      document.getElementById('apellido').value.trim(),
     email,
     pais,
+    edad,
+    localidad,
     genero:        document.getElementById('genero').value,
     whatsapp:      document.getElementById('phoneCode').value + ' ' + document.getElementById('phoneNumber').value.trim(),
     instagram,
@@ -642,6 +662,7 @@ document.getElementById('creatorForm').addEventListener('submit', async function
     foto_cuerpo_url,
     presupuesto_video: document.getElementById('moneda_video').value + ' ' + document.getElementById('presupuesto_video').value.trim(),
     acepta_intermediario: true,
+    acepta_presencias: true,
     activa: true,
     verificada: false
   };
