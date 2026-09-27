@@ -237,6 +237,8 @@ body{font-family:var(--F);background:var(--bg);color:var(--text);min-height:100v
 .plan-price-ars{font-family:var(--FD);font-size:2rem;font-weight:300;color:#fff;line-height:1;margin-bottom:.1rem;display:none}
 .plan-price-ars sup{font-size:.75rem;font-family:var(--FU);vertical-align:super;opacity:.7}
 .plan-cycle{font-family:var(--FU);font-size:.57rem;font-weight:600;letter-spacing:.08em;color:rgba(255,255,255,.3);margin-bottom:.9rem}
+.plan-price-tachado{font-family:var(--FU);font-size:1rem;font-weight:600;color:rgba(255,255,255,.28);text-decoration:line-through;margin-bottom:.15rem}
+.plan-price-tachado.plan-price-tachado-ars{display:none}
 .plan-div{height:1px;background:rgba(255,255,255,.08);margin-bottom:.9rem}
 .plan-features{list-style:none;flex:1;margin-bottom:1.1rem}
 .plan-features li{font-size:.77rem;color:rgba(255,255,255,.5);padding:.25rem 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:.5rem;line-height:1.4}
@@ -531,6 +533,8 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.06);padding
       <!-- CONEXIÓN -->
       <div class="plan-card">
         <div class="plan-name">Conexión</div>
+        <div class="plan-price-tachado plan-price-tachado-usd">US$980</div>
+        <div class="plan-price-tachado plan-price-tachado-ars">$1.480.000</div>
         <div class="plan-price-usd"><sup>US$</sup>250</div>
         <div class="plan-price-ars"><sup>$</sup>377.500</div>
         <div class="plan-cycle">Pago único · Válido 1 mes</div>
@@ -553,6 +557,8 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.06);padding
       <div class="plan-card featured">
         <div class="plan-badge">Más elegido</div>
         <div class="plan-name">Euforia</div>
+        <div class="plan-price-tachado plan-price-tachado-usd">US$4.100</div>
+        <div class="plan-price-tachado plan-price-tachado-ars">$6.200.000</div>
         <div class="plan-price-usd"><sup>US$</sup>1.050</div>
         <div class="plan-price-ars"><sup>$</sup>1.585.500</div>
         <div class="plan-cycle">Pago cada 3 meses</div>
@@ -574,6 +580,8 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.06);padding
       <!-- MAX -->
       <div class="plan-card">
         <div class="plan-name">Euforia MAX</div>
+        <div class="plan-price-tachado plan-price-tachado-usd">US$6.900</div>
+        <div class="plan-price-tachado plan-price-tachado-ars">$10.350.000</div>
         <div class="plan-price-usd"><sup>US$</sup>1.750</div>
         <div class="plan-price-ars"><sup>$</sup>2.642.500</div>
         <div class="plan-cycle">Pago cada 6 meses · 1 mes gratis</div>
@@ -784,6 +792,8 @@ document.getElementById('plansOverlay').addEventListener('click',e=>{if(e.target
 function setCur(c){
   document.querySelectorAll('.plan-price-usd').forEach(el=>el.style.display=c==='USD'?'block':'none');
   document.querySelectorAll('.plan-price-ars').forEach(el=>el.style.display=c==='ARS'?'block':'none');
+  document.querySelectorAll('.plan-price-tachado-usd').forEach(el=>el.style.display=c==='USD'?'block':'none');
+  document.querySelectorAll('.plan-price-tachado-ars').forEach(el=>el.style.display=c==='ARS'?'block':'none');
   document.getElementById('btnUSD').classList.toggle('active',c==='USD');
   document.getElementById('btnARS').classList.toggle('active',c==='ARS');
 }

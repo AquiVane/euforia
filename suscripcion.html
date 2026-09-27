@@ -114,6 +114,7 @@ body{font-family:var(--F);background:var(--bg);color:var(--text);min-height:100v
 
 .checkout-price-usd{font-family:var(--FD);font-size:3.8rem;font-weight:300;color:#fff;line-height:1;display:block}
 .checkout-price-ars{font-family:var(--FD);font-size:3rem;font-weight:300;color:#fff;line-height:1;display:none}
+.checkout-price-tachado{font-family:var(--FU);font-size:1.1rem;font-weight:600;color:rgba(255,255,255,.32);text-decoration:line-through;display:block;margin-bottom:.15rem}
 .checkout-price-usd sup,.checkout-price-ars sup{font-family:var(--FU);font-size:.85rem;vertical-align:super;opacity:.55}
 .checkout-cycle{font-family:var(--FU);font-size:.55rem;font-weight:600;letter-spacing:.1em;color:rgba(255,255,255,.28);margin-top:.28rem;display:block}
 .checkout-note{font-family:var(--FU);font-size:.52rem;color:rgba(255,255,255,.18);line-height:1.65;margin-top:.75rem;font-weight:400;border-top:1px solid rgba(255,255,255,.07);padding-top:.7rem}
@@ -209,7 +210,9 @@ body{font-family:var(--F);background:var(--bg);color:var(--text);min-height:100v
         <button class="cur-btn on" onclick="setCur('usd',this)">USD</button>
         <button class="cur-btn" onclick="setCur('ars',this)">ARS</button>
       </div>
+      <span class="checkout-price-tachado" id="priceUSDTachado">US$47</span>
       <span class="checkout-price-usd" id="priceUSD"><sup>US$</sup>12</span>
+      <span class="checkout-price-tachado" id="priceARSTachado" style="display:none">$73.000</span>
       <span class="checkout-price-ars" id="priceARS"><sup>$</sup>18.660</span>
       <span class="checkout-cycle">por mes &middot; renovaci&#243;n autom&#225;tica</span>
       <p class="checkout-note">El precio en ARS se actualiza al valor del d&#243;lar del d&#237;a. La diferencia se env&#237;a por link de pago al mail antes de activar el acceso.</p>
@@ -273,6 +276,8 @@ function setCur(cur, btn) {
   btn.classList.add('on');
   document.getElementById('priceUSD').style.display = cur === 'usd' ? 'block' : 'none';
   document.getElementById('priceARS').style.display = cur === 'ars' ? 'block' : 'none';
+  document.getElementById('priceUSDTachado').style.display = cur === 'usd' ? 'block' : 'none';
+  document.getElementById('priceARSTachado').style.display = cur === 'ars' ? 'block' : 'none';
   var mpWrap = document.getElementById('mp-card-form-wrap');
   var ppBtn = document.getElementById('paypal-sub-btn');
   var divider = document.querySelector('.pay-divider');
