@@ -226,6 +226,7 @@ body{font-family:var(--F);background:var(--bg);color:var(--text);min-height:100v
           <input type="text" id="f-nombre" placeholder="Nombre" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--F);font-size:.82rem;padding:.5rem .8rem;outline:none;border-radius:2px">
           <input type="text" id="f-empresa" placeholder="Empresa / Marca" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--F);font-size:.82rem;padding:.5rem .8rem;outline:none;border-radius:2px">
           <input type="email" id="f-email" placeholder="Email" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--F);font-size:.82rem;padding:.5rem .8rem;outline:none;border-radius:2px">
+          <input type="text" id="f-referral" placeholder="¿Te recomendó una Copiloto/a EUFORIA? Código (opcional)" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--F);font-size:.82rem;padding:.5rem .8rem;outline:none;border-radius:2px">
         </div>
         <label style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1rem;cursor:pointer;">
           <input type="checkbox" id="privacyCheck" checked required style="margin-top:3px;flex-shrink:0;width:16px;height:16px;padding:0;accent-color:#e8813a;">
@@ -290,7 +291,8 @@ function getFields() {
   return {
     nombre: document.getElementById('f-nombre').value.trim(),
     empresa: document.getElementById('f-empresa').value.trim(),
-    email: document.getElementById('f-email').value.trim()
+    email: document.getElementById('f-email').value.trim(),
+    referralCode: document.getElementById('f-referral').value.trim()
   };
 }
 
@@ -330,7 +332,7 @@ paypal.Buttons({
     fetch(WORKER_URL + '/api/paypal-subscription', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ subscriptionID: data.subscriptionID, email: f.email, nombre: f.nombre, empresa: f.empresa })
+      body: JSON.stringify({ subscriptionID: data.subscriptionID, email: f.email, nombre: f.nombre, empresa: f.empresa, referralCode: f.referralCode })
     })
     .then(function(r) { return r.json(); })
     .then(function(res) {
@@ -373,7 +375,8 @@ bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', {
           cardToken: formData.token,
           email: f.email,
           nombre: f.nombre,
-          empresa: f.empresa
+          empresa: f.empresa,
+          referralCode: f.referralCode
         })
       })
       .then(function(r) { return r.json(); })
