@@ -64,7 +64,8 @@
 
   <div class="card">
     <strong>Ranking actual de creadoras</strong>
-    <table id="tablaCreadoras"><thead><tr><th>Nombre</th><th>Código</th><th>Puntos</th></tr></thead><tbody></tbody></table>
+    <p class="sub" style="margin:4px 0 14px;">"Secuencia" es la cadena automática de bienvenida (5 mails, uno cada 3 días) -- no tiene nada que ver con la columna "Email Marketing" del CRM del Hub, que es de seguimiento manual del equipo.</p>
+    <table id="tablaCreadoras"><thead><tr><th>Nombre</th><th>Código</th><th>Puntos</th><th>Secuencia</th></tr></thead><tbody></tbody></table>
   </div>
 
   <div class="card">
@@ -102,9 +103,18 @@ async function cargarDatos() {
   } catch (e) { return false; }
 }
 
+function secuenciaLabel(r) {
+  const paso = r.secuencia_paso;
+  if (paso == null) return '—';
+  if (paso >= 6) return '✓ Completa (5/5)';
+  if (paso < 1) return 'Sin empezar';
+  const proximo = r.secuencia_proximo_envio ? ` · próximo: ${r.secuencia_proximo_envio}` : '';
+  return `Paso ${paso}/5${proximo}`;
+}
+
 function renderCreadoras(rows) {
   const tbody = document.querySelector('#tablaCreadoras tbody');
-  tbody.innerHTML = rows.map(r => `<tr><td>${r.nombre} ${r.apellido || ''}</td><td>${r.referral_code || '—'}</td><td>${r.puntos_posicionamiento || 0}</td></tr>`).join('') || '<tr><td colspan="3">Sin creadoras activas.</td></tr>';
+  tbody.innerHTML = rows.map(r => `<tr><td>${r.nombre} ${r.apellido || ''}</td><td>${r.referral_code || '—'}</td><td>${r.puntos_posicionamiento || 0}</td><td>${secuenciaLabel(r)}</td></tr>`).join('') || '<tr><td colspan="4">Sin creadoras activas.</td></tr>';
 }
 
 function renderLog(rows) {
