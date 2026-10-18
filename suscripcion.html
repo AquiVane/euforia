@@ -215,7 +215,7 @@ body{font-family:var(--F);background:var(--bg);color:var(--text);min-height:100v
       <span class="checkout-price-tachado" id="priceARSTachado" style="display:none">$73.000</span>
       <span class="checkout-price-ars" id="priceARS"><sup>$</sup>18.660</span>
       <span class="checkout-cycle">por mes &middot; renovaci&#243;n autom&#225;tica</span>
-      <p class="checkout-note">El precio en ARS se actualiza al valor del d&#243;lar del d&#237;a. La diferencia se env&#237;a por link de pago al mail antes de activar el acceso.</p>
+      <p class="checkout-note">El precio en ARS se calcula al d&#243;lar oficial (venta) del d&#237;a.</p>
     </div>
     <div class="checkout-body">
 
@@ -271,6 +271,14 @@ body{font-family:var(--F);background:var(--bg);color:var(--text);min-height:100v
 var WORKER_URL = 'https://euforia-worker.conglomeradocosmart.workers.dev';
 var PAYPAL_PLAN_ID = 'P-9JG76102885125425NJBPXDI';
 var MP_PUBLIC_KEY = 'APP_USR-5cb7e536-a379-497b-8002-2bdc3db045fa';
+
+// Precio en pesos al dólar oficial (venta) del día: lo calcula el servidor
+fetch(WORKER_URL + '/api/precio').then(function (r) { return r.json(); }).then(function (p) {
+  if (!p || !p.ars) return;
+  var fmt = function (n) { return Number(n).toLocaleString('es-AR'); };
+  document.getElementById('priceARS').innerHTML = '<sup>$</sup>' + fmt(p.ars);
+  document.getElementById('priceARSTachado').textContent = '$' + fmt(p.arsTachado);
+}).catch(function () {});
 
 function setCur(cur, btn) {
   document.querySelectorAll('.cur-btn').forEach(function(b){ b.classList.remove('on'); });
@@ -356,8 +364,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 var bricksBuilder = mp.bricks();
 
-bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', {
-  initialization: { amount: 18660 },
+// El Brick necesita el monto en pesos del día: se pide al servidor (respaldo: último valor conocido)
+function crearCardBrick(amount) { return bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', {
+  initialization: { amount: amount },
   customization: {
     visual: { style: { theme: 'default' } },
     paymentMethods: { types: { excluded: ['debit_card', 'prepaid_card'] } }
@@ -388,7 +397,8 @@ bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', {
     },
     onError: function(error) { console.error(error); }
   }
-});
+}); }
+fetch(WORKER_URL + '/api/precio').then(function (r) { return r.json(); }).then(function (p) { crearCardBrick((p && p.ars) || 18660); }).catch(function () { crearCardBrick(18660); });
 </script>
 <script defer src="https://cosmart.com.ar/cookie-banner.js"></script>
 <script defer src="https://www.cosmart.com.ar/hm.js"></script>
