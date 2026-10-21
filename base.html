@@ -858,6 +858,8 @@ document.getElementById('btnLogout').addEventListener('click',e=>{e.preventDefau
 
 checkAuth();
 load();
+// Los botones de pago (PayPal y Mercado Pago) se arman apenas carga la página, no al abrir los planes: al abrirlos ya están listos.
+if(!ppRendered&&typeof paypal!=='undefined'){try{renderPayPal();ppRendered=true;}catch(e){console.error(e);}}
 </script>
 <script defer src="https://cosmart.com.ar/cookie-banner.js"></script>
 </body>
