@@ -86,13 +86,13 @@
   --sky: #2a7fba;
   --celeste: #5cb8e4;
   --ice: #b8dff0;
-  --dawn-peach: #b8dff0;
-  --dawn-coral: #5cb8e4;
-  --sunset-red: #2a7fba;
-  --wine: #1a3a5c;
+  --dawn-peach: #f4c59a;
+  --dawn-coral: #e87c5a;
+  --sunset-red: #d4673f;
+  --wine: #6e2a22;
   --cream: #faf8f4;
   --warm-white: #fff9f4;
-  --gold: #b8dff0;
+  --gold: #f4c59a;
   --text-dark: #0d1520;
   --text-mid: #2c4a6e;
 
@@ -260,7 +260,7 @@ nav {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(92,184,228,0.4), rgba(92,184,228,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(92,184,228,0.4), rgba(232,124,90,0.4), transparent);
   z-index: 2;
 }
 
@@ -310,7 +310,7 @@ nav {
   animation: fadeUp 0.9s 0.35s forwards;
 }
 
-.hero-title em { color: #2a7fba; -webkit-text-fill-color: #2a7fba;
+.hero-title em { color: #e87c5a; -webkit-text-fill-color: #e87c5a;
   font-style: italic;
   font-weight: 300;
   background: linear-gradient(135deg, var(--celeste) 0%, var(--dawn-peach) 60%, var(--dawn-coral) 100%);
@@ -587,7 +587,7 @@ section { position: relative; }
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(92,184,228,0.15), rgba(92,184,228,0.1));
+  background: linear-gradient(135deg, rgba(92,184,228,0.15), rgba(232,124,90,0.1));
   border: 1px solid rgba(92,184,228,0.25);
   display: flex;
   align-items: center;
@@ -671,11 +671,11 @@ section { position: relative; }
 
 .world-card.creators {
   background: linear-gradient(135deg,
-    rgba(26,58,92,0.15) 0%,
-    rgba(42,127,186,0.15) 50%,
-    rgba(92,184,228,0.1) 100%
+    rgba(110,42,34,0.15) 0%,
+    rgba(212,103,63,0.15) 50%,
+    rgba(232,124,90,0.1) 100%
   );
-  border: 1px solid rgba(92,184,228,0.25);
+  border: 1px solid rgba(232,124,90,0.25);
 }
 
 .world-card-accent {
@@ -804,7 +804,7 @@ section { position: relative; }
 
 .btn-creators:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(42,127,186,0.5);
+  box-shadow: 0 8px 30px rgba(212,103,63,0.5);
 }
 
 /* ─── BASE DE DATOS ─── */
@@ -972,7 +972,7 @@ section { position: relative; }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(92,184,228,0.1), rgba(92,184,228,0.1));
+  background: linear-gradient(135deg, rgba(92,184,228,0.1), rgba(232,124,90,0.1));
 }
 
 .creator-card:nth-child(1) .feed-item:nth-child(1) { background: linear-gradient(135deg, #1a3a5c, #2a7fba); }
@@ -983,11 +983,11 @@ section { position: relative; }
 .creator-card:nth-child(1) .feed-item:nth-child(6) { background: linear-gradient(135deg, #1a3a5c, #3a8a9e); }
 
 .creator-card:nth-child(2) .feed-item:nth-child(1) { background: linear-gradient(135deg, #5c1a1a, #8b2a2a); }
-.creator-card:nth-child(2) .feed-item:nth-child(2) { background: linear-gradient(135deg, #2a7fba, #5cb8e4); }
-.creator-card:nth-child(2) .feed-item:nth-child(3) { background: linear-gradient(135deg, #1a3a5c, #2a7fba); }
-.creator-card:nth-child(2) .feed-item:nth-child(4) { background: linear-gradient(135deg, #5cb8e4, #b8dff0); }
-.creator-card:nth-child(2) .feed-item:nth-child(5) { background: linear-gradient(135deg, #2a7fba, #1a3a5c); }
-.creator-card:nth-child(2) .feed-item:nth-child(6) { background: linear-gradient(135deg, #5c1a1a, #2a7fba); }
+.creator-card:nth-child(2) .feed-item:nth-child(2) { background: linear-gradient(135deg, #d4673f, #e87c5a); }
+.creator-card:nth-child(2) .feed-item:nth-child(3) { background: linear-gradient(135deg, #6e2a22, #d4673f); }
+.creator-card:nth-child(2) .feed-item:nth-child(4) { background: linear-gradient(135deg, #e87c5a, #f4c59a); }
+.creator-card:nth-child(2) .feed-item:nth-child(5) { background: linear-gradient(135deg, #d4673f, #6e2a22); }
+.creator-card:nth-child(2) .feed-item:nth-child(6) { background: linear-gradient(135deg, #5c1a1a, #d4673f); }
 
 .creator-card:nth-child(3) .feed-item:nth-child(1) { background: linear-gradient(135deg, #1a3a1a, #2a6a2a); }
 .creator-card:nth-child(3) .feed-item:nth-child(2) { background: linear-gradient(135deg, #3a7a3a, #5a9a5a); }
@@ -1187,8 +1187,8 @@ section { position: relative; }
 }
 
 .destination-card:hover {
-  border-color: rgba(92,184,228,0.3);
-  background: rgba(92,184,228,0.04);
+  border-color: rgba(232,124,90,0.3);
+  background: rgba(232,124,90,0.04);
 }
 
 .destination-card::before {
@@ -1226,7 +1226,7 @@ section { position: relative; }
     #2a6a8a 50%,
     #e8a878 68%,
     #d96a4a 78%,
-    #1a3a5c 90%,
+    #6e2a22 90%,
     #5a0a0a 100%
   );
   border: 1px solid rgba(255,255,255,0.08);
@@ -1247,14 +1247,14 @@ section { position: relative; }
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, #b8dff0, #5cb8e4);
+  background: radial-gradient(ellipse, #f4c59a, #e87c5a);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow:
-    0 0 30px rgba(184,223,240,0.6),
-    0 0 80px rgba(92,184,228,0.3),
-    0 0 150px rgba(42,127,186,0.2);
+    0 0 30px rgba(244,197,154,0.6),
+    0 0 80px rgba(232,124,90,0.3),
+    0 0 150px rgba(212,103,63,0.2);
 }
 
 .horizon-stars {
@@ -1563,7 +1563,7 @@ section { position: relative; }
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 300px;
-  background: linear-gradient(180deg, transparent, rgba(92,184,228,0.06));
+  background: linear-gradient(180deg, transparent, rgba(232,124,90,0.06));
   pointer-events: none;
 }
 
@@ -1664,7 +1664,7 @@ section { position: relative; }
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 35px rgba(42,127,186,0.5);
+  box-shadow: 0 10px 35px rgba(212,103,63,0.5);
 }
 
 .contact-info {
@@ -2221,7 +2221,7 @@ footer {
   footer a { display: inline-block; padding: 0.4rem 0.3rem; }
   .btn-primary, .btn-secondary, .database-cta a, .travel a { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; text-align: center; }
 }
-.world-card.creators.reveal { background: linear-gradient(135deg,rgba(26,58,92,0.45) 0%,rgba(42,127,186,0.38) 60%,rgba(92,184,228,0.15) 100%); }
+.world-card.creators.reveal { background: linear-gradient(135deg,rgba(110,42,34,0.45) 0%,rgba(212,103,63,0.38) 60%,rgba(232,124,90,0.15) 100%); }
 
 /* ─── MOBILE v3: página uniforme, sin tarjetas, paleta azul (22/10/2026) ─── */
 @media (max-width: 900px) {
@@ -2249,7 +2249,6 @@ footer {
   [style*="border-left"] { border-left: 0 !important; padding-left: 0 !important; }
   .industry-icon-mark, .world-card-accent, .world-num { display: none !important; }
   .filter-demo::before, .filter-demo::after { display: none !important; }
-  .hero-actions .btn-secondary { background: rgba(10,15,30,0.55) !important; color: #fff !important; border-color: #fff !important; }
 
   .industries-list, .destinations, .creators-grid, .worlds-grid { display: flex !important; flex-direction: column !important; gap: 0 !important; grid-template-columns: 1fr !important; }
   .industry-item, .destination-card, .creator-card {
@@ -2263,11 +2262,15 @@ footer {
   .destination-name, .creator-name { font-weight: 700; }
 
   /* botones: un solo estilo, una sola paleta */
-  .btn-primary, .btn-brands, .btn-creators, .btn-submit, .database-cta a, #suscripcion-cta a {
+  .btn-primary, .btn-brands, .btn-submit, .database-cta a, #suscripcion-cta a {
     background: var(--celeste) !important; color: var(--midnight) !important; border: 0 !important;
     clip-path: none !important; border-radius: 6px !important;
   }
-  .btn-secondary, .btn-consult, .creator-card a, .creator-card button {
+  .btn-creators, .hero-actions .btn-secondary, .nav-links .nav-cta[href="/unirme"], .travel .btn-primary {
+    background: var(--dawn-coral) !important; color: var(--midnight) !important; border: 0 !important;
+    clip-path: none !important; border-radius: 6px !important;
+  }
+  .btn-consult, .creator-card a, .creator-card button {
     background: transparent !important; color: var(--celeste) !important; border: 1px solid var(--celeste) !important;
     clip-path: none !important; border-radius: 6px !important;
   }
@@ -2292,7 +2295,7 @@ footer {
     <li><a href="#nosotros">Nosotros</a></li>
     <li><a href="#base">Creadoras UGC</a></li>
     <li><a href="#nosotros">Industrias</a></li>
-    <li><a href="/unirme" class="nav-cta" style="background:transparent; border:1px solid #5cb8e4; color:#5cb8e4;">Soy creadora</a></li>
+    <li><a href="/unirme" class="nav-cta" style="background:#e87c5a; color:#0a0f1e;">Soy creadora</a></li>
     <li><a href="#suscripcion-cta" class="nav-cta">Soy marca</a></li>
   </ul>
 </nav>
@@ -2317,7 +2320,7 @@ footer {
     </p>
     <div class="hero-actions">
       <a href="#suscripcion-cta" class="btn-primary" style="background:var(--celeste)!important;border:none;color:var(--midnight)!important;">Buscar creadoras</a>
-      <a href="/unirme" class="btn-secondary" style="background:#2a7fba;border-color:#2a7fba;color:#fff;">Soy creadora →</a>
+      <a href="/unirme" class="btn-secondary" style="background:#e87c5a;border-color:#e87c5a;color:#fff;">Soy creadora →</a>
     </div>
   </div>
 
@@ -2623,7 +2626,7 @@ footer {
           <span class="net-badge net-ig">IG</span>
           <span class="net-badge net-yt">YT</span>
         </div>
-        <a href="#suscripcion-cta" class="btn-consult" style="display:block;text-align:center;text-decoration:none;border-color:rgba(92,184,228,0.3);color:var(--dawn-coral);">Ver en la plataforma →</a>
+        <a href="#suscripcion-cta" class="btn-consult" style="display:block;text-align:center;text-decoration:none;border-color:rgba(232,124,90,0.3);color:var(--dawn-coral);">Ver en la plataforma →</a>
       </div>
 
       <!-- Card 3 -->
@@ -2700,7 +2703,7 @@ footer {
       Creadoras verificadas, listas para<br>
       <em>trabajar con tu marca</em>
     </h2>
-    <a href="/suscripcion" style="display:inline-block;background:#2a7fba;color:#fff;font-family:var(--font-ui);font-size:1.1rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:1.4rem 4rem;border-radius:6px;text-decoration:none;box-shadow:0 6px 32px rgba(42,127,186,0.45);">Accedé al cat&#225;logo completo</a>
+    <a href="/suscripcion" style="display:inline-block;background:#e87c5a;color:#fff;font-family:var(--font-ui);font-size:1.1rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:1.4rem 4rem;border-radius:6px;text-decoration:none;box-shadow:0 6px 32px rgba(232,124,90,0.45);">Accedé al cat&#225;logo completo</a>
     
   </div>
 </section>
@@ -3205,7 +3208,7 @@ window.addEventListener('scroll', () => {
     sky.addColorStop(0.78, '#d4875a');
     sky.addColorStop(0.85, '#e8724a');
     sky.addColorStop(0.92, '#c0462a');
-    sky.addColorStop(1,    '#1a3a5c');
+    sky.addColorStop(1,    '#6e2a22');
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, w, h * 0.72);
     // Horizon glow
