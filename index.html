@@ -2171,6 +2171,56 @@ footer {
     letter-spacing: 0.06em !important;
   }
 }
+/* ─── MOBILE v2: optimización celular (22/10/2026) ─── */
+@media (max-width: 640px) {
+  html, body { overflow-x: hidden; }
+  nav { padding: 0.8rem 1.2rem; }
+  .nav-links { margin: 0 -1.2rem; padding-left: 1.2rem; padding-right: 1.2rem; }
+  .nav-links a { padding: 0.9rem 0; font-size: 0.85rem; }
+  .nav-toggle { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+
+  .hero { min-height: auto; justify-content: flex-start; }
+  .hero-content { padding: 2.5rem 1.25rem 1rem; }
+  .hero-eyebrow { font-size: 0.65rem; letter-spacing: 0.18em; margin-bottom: 1.2rem; }
+  .hero-title { font-size: clamp(2rem, 9vw, 2.6rem); line-height: 1.12; margin-bottom: 1.2rem; }
+  .hero-desc { font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.85); margin-bottom: 1.8rem; }
+  .hero-actions { align-items: stretch; }
+  .hero-actions a, .hero-actions button { max-width: none !important; padding: 1.05rem 1rem; min-height: 48px; }
+  .hero-stats { width: 100%; box-sizing: border-box; padding: 1.5rem 1.25rem 2.5rem; justify-content: flex-start; }
+  .stat-item { text-align: left; }
+  .stat-num { font-size: 2rem; color: var(--celeste); }
+  .stat-label { color: rgba(255,255,255,0.75); }
+
+  .industries-strip { padding: 1.2rem 0; }
+  .industry-tag { color: rgba(255,255,255,0.75); }
+
+  .about, .database, .travel { padding: 3.5rem 0; }
+  .section-inner { padding: 0 1.25rem; }
+  .section-label { font-size: 0.68rem; letter-spacing: 0.18em; }
+  .about-title, .database-title, .travel-title, .worlds-title { font-size: clamp(1.8rem, 8vw, 2.3rem); line-height: 1.15; }
+  .about-body, .database-intro, .travel-body { font-size: 1rem; line-height: 1.7; color: rgba(255,255,255,0.82); }
+  .about-card { padding: 1.5rem 1.1rem; }
+  .about-card .industry-item, .industries-list > * { min-width: 0; }
+
+  .world-card { padding: 2rem 1.25rem !important; }
+  .worlds-header { padding: 0 1.25rem; }
+
+  .filter-demo { padding: 1.5rem 1rem 1rem; }
+  .filters-row { gap: 0.5rem; justify-content: flex-start; }
+  .filter-chip { margin-left: 0 !important; min-height: 40px; padding: 0.55rem 0.9rem; font-size: 0.72rem; }
+  .creators-grid { gap: 1rem; }
+
+  .travel-visual img { width: 100%; height: auto; }
+  .international { padding: 3rem 1.25rem !important; }
+
+  /* textos mínimos legibles */
+  [class*="-desc"], [class*="-sub"], [class*="detail"] { font-size: max(0.85rem, 1em); }
+  .destination-type { font-size: 0.82rem; line-height: 1.45; color: rgba(255,255,255,0.7); }
+  .destination-card { padding: 1.1rem 1rem; }
+  footer { padding: 2rem 1.25rem; gap: 1rem; }
+  footer a { display: inline-block; padding: 0.4rem 0.3rem; }
+  .btn-primary, .btn-secondary, .database-cta a, .travel a { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; text-align: center; }
+}
 </style>
 </head>
 <body>
