@@ -609,6 +609,11 @@ input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.2); }
       <span style="font-size:.78rem;color:rgba(255,255,255,0.6);line-height:1.55;">Acepto la <a href="https://cosmart.com.ar/politica-de-privacidad" target="_blank" style="color:var(--accent, #e8813a);">Política de Privacidad</a> de COSMART y consiento el tratamiento de mis datos para ser contactada en relación a oportunidades de contenido UGC y comunicaciones del ecosistema COSMART.</span>
     </label>
 
+    <label style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1.2rem;cursor:pointer;">
+      <input type="checkbox" id="consienteHome" required style="-webkit-appearance:auto;appearance:auto;width:16px;height:16px;min-width:16px;margin-top:3px;flex-shrink:0;accent-color:var(--accent, #e8813a);">
+      <span style="font-size:.78rem;color:rgba(255,255,255,0.6);line-height:1.55;">Autorizo a Euforia a usar mis fotos y los datos de mi perfil (nombre, país, categorías y redes) para darme visibilidad de forma aleatoria en la página de inicio de Euforia y ofrecerme a marcas que quieran contratarme. Puedo pedir que me saquen cuando quiera escribiendo a info@cosmart.com.ar. *</span>
+    </label>
+
     <button type="submit" class="btn-submit" id="submitBtn">Enviar mi perfil a Euforia →</button>
 
   </form>
@@ -724,6 +729,7 @@ document.getElementById('creatorForm').addEventListener('submit', async function
     presupuesto_video: document.getElementById('moneda_video').value + ' ' + document.getElementById('presupuesto_video').value.trim(),
     acepta_intermediario: true,
     acepta_presencias: true,
+    consiente_home: document.getElementById('consienteHome').checked,
     activa: true,
     verificada: false
   };

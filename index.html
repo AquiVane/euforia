@@ -2280,6 +2280,13 @@ footer {
   .horizon-scene, .travel-visual img { border-radius: 6px !important; }
   footer { border-top: 1px solid rgba(92,184,228,0.14); }
 }
+/* Creadoras destacadas del mes (con foto) */
+.creator-photo { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; display: block; background: rgba(255,255,255,0.06); }
+@media (max-width: 900px) {
+  .creator-card.has-photo { display: grid !important; grid-template-columns: 84px 1fr; column-gap: 1rem; row-gap: 0.5rem; align-items: start; }
+  .creator-card.has-photo .creator-photo { grid-row: 1 / span 2; width: 84px; height: 84px; aspect-ratio: 1; border-radius: 50%; }
+  .creator-card.has-photo .btn-consult { grid-column: 1 / -1; }
+}
 </style>
 </head>
 <body>
@@ -2598,7 +2605,7 @@ footer {
     </div>
 
     <!-- Cards -->
-    <div class="creators-grid reveal">
+    <div class="creators-grid reveal" id="destacadasGrid">
 
       <!-- Card 1 -->
       <div class="creator-card" style="display:flex;flex-direction:column;gap:0.8rem;padding:1.5rem;">
@@ -3295,6 +3302,39 @@ window.addEventListener('scroll', () => {
   }
   draw();
   window.addEventListener('resize', draw);
+})();
+
+// ── Creadoras destacadas del mes: 3 con foto, rotan solas cada mes (solo las que dieron consentimiento) ──
+(function () {
+  const grid = document.getElementById('destacadasGrid');
+  if (!grid) return;
+  fetch('https://euforia-worker.conglomeradocosmart.workers.dev/api/destacadas')
+    .then(r => r.json())
+    .then(d => {
+      const lista = (d && d.creadoras) || [];
+      if (!lista.length) return; // sin consentimientos todavía: quedan las tarjetas de ejemplo
+      grid.textContent = '';
+      lista.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'creator-card has-photo';
+        card.style.cssText = 'display:flex;flex-direction:column;gap:0.8rem;padding:1.5rem;';
+        const img = document.createElement('img');
+        img.className = 'creator-photo'; img.src = c.foto; img.alt = c.nombre + ' ' + c.inicial; img.loading = 'lazy';
+        const name = document.createElement('div');
+        name.className = 'creator-name'; name.textContent = c.nombre + ' ' + c.inicial;
+        const tags = document.createElement('div');
+        tags.className = 'creator-tags';
+        [c.pais].concat(c.categorias || []).filter(Boolean).forEach(t => {
+          const sp = document.createElement('span'); sp.className = 'creator-tag'; sp.textContent = t; tags.appendChild(sp);
+        });
+        const a = document.createElement('a');
+        a.href = '#suscripcion-cta'; a.className = 'btn-consult'; a.textContent = 'Ver perfil completo →';
+        a.style.cssText = 'display:block;text-align:center;text-decoration:none;';
+        card.append(img, name, tags, a);
+        grid.appendChild(card);
+      });
+    })
+    .catch(() => {});
 })();
 </script>
 <script defer src="https://cosmart.com.ar/cookie-banner.js"></script>
