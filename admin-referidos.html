@@ -63,6 +63,17 @@
   </div>
 
   <div class="card">
+    <strong>Visibilidad en la home — pedir autorización</strong>
+    <p class="sub" style="margin:4px 0 0;">Manda el mail para que cada creadora autorice que su foto aparezca en la home. Solo se le escribe a quien todavía no respondió ni fue consultada. Máximo 20 por vez.</p>
+    <label>Mail de prueba (te llega solo a vos, no marca a nadie)</label>
+    <input id="fTestMail" type="email" placeholder="tu@mail.com">
+    <button id="btnPrueba" onclick="window.pedirConsentimiento('prueba')">Enviarme una prueba</button>
+    <button id="btnDry" onclick="window.pedirConsentimiento('dry')" style="margin-left:8px;">Ver a cuántas falta pedirles</button>
+    <button id="btnEnviar" onclick="window.pedirConsentimiento('enviar')" style="margin-left:8px;">Enviar a las próximas 20</button>
+    <p id="consMsg" class="msg"></p>
+  </div>
+
+  <div class="card">
     <strong>Ranking actual de creadoras</strong>
     <p class="sub" style="margin:4px 0 14px;">"Secuencia" es la cadena automática de bienvenida (5 mails, uno cada 3 días) -- no tiene nada que ver con la columna "Email Marketing" del CRM del Hub, que es de seguimiento manual del equipo.</p>
     <table id="tablaCreadoras"><thead><tr><th>Nombre</th><th>Código</th><th>Puntos</th><th>Secuencia</th></tr></thead><tbody></tbody></table>
@@ -152,6 +163,32 @@ window.otorgarPuntos = async function() {
   } finally {
     btn.disabled = false;
   }
+};
+
+
+window.pedirConsentimiento = async function(modo) {
+  const msg = document.getElementById('consMsg');
+  let body = {};
+  if (modo === 'prueba') {
+    const t = document.getElementById('fTestMail').value.trim();
+    if (!t) { msg.textContent = 'Escribí un mail para la prueba.'; msg.className = 'msg error'; return; }
+    body = { testEmail: t };
+  } else if (modo === 'dry') {
+    body = { dryRun: true };
+  } else {
+    if (!confirm('Se va a mandar el mail a las próximas 20 creadoras que todavía no respondieron. ¿Seguimos?')) return;
+    body = { limit: 20 };
+  }
+  msg.textContent = 'Procesando…'; msg.className = 'msg';
+  try {
+    const res = await fetch(`${API}/api/admin/pedir-consentimiento-home`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY }, body: JSON.stringify(body),
+    });
+    const d = await res.json();
+    if (!res.ok) { msg.textContent = d.error || 'Error.'; msg.className = 'msg error'; return; }
+    msg.className = 'msg ok';
+    msg.textContent = d.prueba ? `Prueba enviada a ${d.prueba}.` : d.dryRun ? `Faltan pedirles a ${d.aEnviar} creadoras en esta tanda (ej.: ${(d.ejemplo||[]).join(', ')}).` : `Enviados ${d.enviados} de ${d.intentados}.`;
+  } catch (e) { msg.textContent = 'Error de conexión.'; msg.className = 'msg error'; }
 };
 
 if (ADMIN_KEY) window.entrar();
