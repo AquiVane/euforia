@@ -799,12 +799,15 @@ function setCur(c){
 }
 
 function renderPayPal(){
-  [{el:'pp-conexion',amount:'250.00',label:'Conexión — Euforia'},{el:'pp-euforia',amount:'1050.00',label:'Plan Euforia'},{el:'pp-max',amount:'1750.00',label:'Euforia MAX'}].forEach(p=>{
+  [{el:'pp-conexion',amount:'250.00',label:'Conexión — Euforia',slug:'euforia-conexion'},{el:'pp-euforia',amount:'1050.00',label:'Plan Euforia',slug:'euforia-plan'},{el:'pp-max',amount:'1750.00',label:'Euforia MAX',slug:'euforia-max'}].forEach(p=>{
     const el=document.getElementById(p.el);if(!el)return;
     paypal.Buttons({
       style:{layout:'horizontal',color:'black',shape:'rect',label:'pay',height:36,tagline:false},
       createOrder(data,actions){return actions.order.create({purchase_units:[{description:p.label,amount:{value:p.amount,currency_code:'USD'}}]});},
-      onApprove(data,actions){return actions.order.capture().then(()=>{alert('Pago exitoso. Euforia te contacta en breve.');closePlans();});},
+      onApprove(data,actions){return actions.order.capture().then(()=>{
+        // Registro de ventas de COSMART: el servidor verifica la orden con PayPal y anota monto, vertical (Euforia) y plan.
+        try{fetch('https://cosmart-training-core.conglomeradocosmart.workers.dev/ventas/paypal-servicio',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,body:JSON.stringify({orderID:data.orderID,slug:p.slug})}).catch(()=>{});}catch(e){}
+        alert('Pago exitoso. Euforia te contacta en breve.');closePlans();});},
       onError(e){console.error(e);alert('Error en el pago. Intentá de nuevo.');}
     }).render('#'+p.el);
   });
